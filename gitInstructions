@@ -1,0 +1,58 @@
+Mastering Collaboration: Explore Our Essential Git Best Practices
+
+Must Followed:
+Use branches: Create a new feature branch for each feature or bug fix. This keeps the main branch clean and avoids merge conflicts.
+Pull before pushing: Always pull changes from the remote repository before pushing your own changes. This ensures that you have the latest changes and reduces the likelihood of conflicts.
+Review Changes before committing.
+Use meaningful commit messages: This helps to track the changes and commit reset.
+When using Git for the first time, it's important to set some basic configuration parameters, such as your name and email address. These settings are used to identify the author of each commit, which is essential for collaboration and tracking changes in a project.
+
+To set your name and email address in Git, open a terminal or command prompt and run the following commands:
+
+git config --global user.name "Your Full Name"
+
+git config --global user.email "your.email@example.com"
+In the terminal, navigate to the folder where you want to clone the repository. For example, if you want to clone the repository into a folder called "Projects," you can use the following command:
+
+cd <project-path>
+Now, clone the remote repository using the git clone command:
+
+git clone <repo-url>
+Sequence of Steps:
+Create a new branch along with checkout:
+git checkout -b <branch-name>
+To display the current state of your working directory. It shows information about which files have been modified, staged, or are untracked since your last commit.
+
+git status
+Once you made changes to the files in your project, stage the changes
+git add <file-name1> <file-name2> 
+
+or 
+
+git add . 
+
+Pull changes: Before pushing your changes to the remote repository, pull any changes that may have been made by other team members using the git pull command.
+git pull origin <branch-name>
+
+Commit the changes:
+git commit -m'<commit-message>'
+
+Information about origin:
+
+Git automatically creates a remote reference called "origin" and points it to the URL of the cloned repository. This is just a convention, and you can name your remote repositories differently if you prefer.
+
+In the context of the command git push origin develop, origin is the default name given to the remote repository when you clone it. It represents the remote repository's URL, allowing you to push changes from your local repository to the remote repository or fetch updates from the remote repository.
+
+Resolve conflicts: After pulling the code as mentioned in the previous step, if there are any conflicts between your changes and the changes made by others, resolve them
+
+Push changes: Finally, push your changes to the remote repository using the git push command. Make sure to push to the correct branch.
+
+git push origin <feature-branch where you made changes>
+
+Pull request (PR): Raise the pull request (in our case we will be using azure devOps)
+
+Create a pull request: Go to the "Pull requests" page and you would be witnessing the notification saying 'create pull request' and click on that 'create pull request'
+Select source and target branches: Select the source and target branches for the pull request. The source branch should be your new feature branch, and the target branch should be the branch you want to merge your changes into.
+Review changes: Review the changes that will be made by the pull request. Make sure that everything looks correct.
+Submit the pull request: Add a description and assign reviewers of both required and optional and Click the "Create" button to submit the pull request.
+Merge the pull request: Once your reviewers have approved the pull request, you can merge it into the target branch by clicking the "Complete" button on the pull request page
