@@ -2,11 +2,15 @@
 import pandas as pd
 import os
 
-# set the path for the raw data
+# set data path variables.
+output_data_path = os.path.abspath('/output')
+input_data_path = os.path.abspath('z:\AzureReporting\\raw data')
+
+# set the path for the raw data Z:\AzureReporting\raw data
 def createDF(csvFile, dfName):
-        raw_data_path = os.path.abspath('C:\jkr\PythonCode\illumifinAzure\\raw data')
+        # raw_data_path = os.path.abspath('z:\AzureReporting\\raw data')
         # get_csv = os.path.join(raw_data_path, 'SprintUserStoryWithFeature.csv')
-        get_csv = os.path.join(raw_data_path, csvFile)
+        get_csv = os.path.join(input_data_path, csvFile)
         dfName = pd.read_csv(get_csv, index_col='ID')
         return dfName
 
@@ -22,12 +26,14 @@ def df_csv_out(df, path, file):
     # write df to a csv file
     df.to_csv(write_df_csv_path)
 
+
 def df_rename_columns(retain_columns, objName):
     rename_columns = {}
     for name in retain_columns:
         new_name = objName + name.replace(" ", "")
         rename_columns[name] = new_name
     return rename_columns
+
 
 def df_parse_data(df):
     # Parse the values concationated is column StoryIterationPath into 3 new columns
@@ -48,8 +54,7 @@ def df_parse_data(df):
     df['Email'] = df['Email'].str.rstrip('>')
     return df
 
-output_data_path = os.path.abspath('C:\jkr\PythonCode\illumifinAzure\\output')
-input_data_path = os.path.abspath('C:\jkr\PythonCode\illumifinAzure\\raw data')
+
 
 dfTask = createDF('AzureTask.csv', 'dfTask')
 dfTask = df_parse_data(dfTask)
@@ -74,6 +79,8 @@ dfStory = df_parse_data(dfStory)
 df_col_names = dfStory.columns
 rename_columns = df_rename_columns(df_col_names, 'Story')
 dfStory = dfStory.rename(columns= rename_columns)
+# Add the id of the story as a persisted field
+dfStory['StoryID'] = dfStory.index
 
 dfEpic = createDF('AzureEpic.csv', 'dfEpic')
 dfEpic = df_parse_data(dfEpic)
@@ -104,6 +111,4 @@ df_csv_out(dfStory, output_data_path, 'StoryOutput') # have 594 records and 14 c
 df_csv_out(dfFeature, output_data_path, 'FeatureOutput')
 df_csv_out(dfEpic, output_data_path, 'EpicOutput')
 df_csv_out(dfInc, output_data_path, 'IncOutput')
-
-
 
