@@ -111,4 +111,5 @@ df_csv_out(dfStory, output_data_path, 'StoryOutput') # have 594 records and 14 c
 df_csv_out(dfFeature, output_data_path, 'FeatureOutput')
 df_csv_out(dfEpic, output_data_path, 'EpicOutput')
 df_csv_out(dfInc, output_data_path, 'IncOutput')
+df_csv_out(dfTask, output_data_path, 'TaskOutput')
 

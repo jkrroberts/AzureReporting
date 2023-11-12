@@ -1,0 +1,36 @@
+Certainly! A GitHub pull request (PR) is a feature that facilitates collaboration among developers when working on a shared codebase. Here's an overview of how it typically works:
+
+1.Fork the Repository:
+
+2.A developer starts by creating a fork of a repository. This means they make a personal copy of someone else's project on GitHub.
+Clone the Repository:
+
+3.The developer then clones (downloads) their forked repository to their local machine. This allows them to make changes to the code.
+Create a Branch:
+
+4.To work on a new feature or bug fix, the developer creates a new branch within their local repository. This branch is independent of the main codebase and allows developers to work on changes without affecting the main code until they are ready.
+Make Changes:
+
+5.The developer makes the necessary changes or additions to the code in their branch.
+Commit Changes:
+
+6.After making changes, the developer commits them to their local branch. A commit is a snapshot of the changes made, and it includes a commit message explaining what was done.
+Push Changes to GitHub:
+
+7.Once the developer is satisfied with their changes locally, they push the branch to their forked repository on GitHub. This makes the changes accessible to others.
+Create a Pull Request:
+
+8. The developer then opens a pull request on the original repository. A pull request is a request to the original repository's owner to pull in the changes made in the developer's branch. This is where the collaboration happens.
+Review and Discuss:
+
+9.Other developers can review the changes made in the pull request. They can comment on specific lines of code, suggest improvements, or ask questions. This process encourages collaboration and ensures that changes meet the project's standards.
+Make Changes and Update Pull Request:
+
+10.Based on the feedback received, the developer may need to make additional changes to their code. They can continue to push these changes to the same branch, and the pull request will be automatically updated.
+Merge the Pull Request:
+
+11.Once the changes have been reviewed and approved, the owner of the original repository (or someone with the necessary permissions) can merge the pull request. This integrates the changes into the main codebase.
+Delete the Branch:
+
+After the changes have been merged, the developer can delete the branch they created for the pull request, as it's no longer needed.
+Pull requests are a central part of the collaborative development process on GitHub, enabling multiple contributors to work on a project simultaneously and maintain code quality through reviews.
