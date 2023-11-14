@@ -56,7 +56,6 @@ def df_parse_data(df):
     return df
 
 
-
 dfTask = createDF('AzureTask.csv', 'dfTask')
 dfTask = df_parse_data(dfTask)
 df_col_names = dfTask.columns
@@ -89,49 +88,45 @@ df_col_names = dfFeature.columns
 rename_columns = df_rename_columns(df_col_names, 'Feature')
 dfFeature = dfFeature.rename(columns= rename_columns)
 
-dfStory = createDF('AzureStory.csv', 'dfStory')
-dfStory = df_parse_data(dfStory)
-df_col_names = dfStory.columns
-rename_columns = df_rename_columns(df_col_names, 'Story')
-dfStory = dfStory.rename(columns= rename_columns)
-# Add the id of the story as a persisted field
-dfStory['StoryID'] = dfStory.index
-"""The suffixes command on the merge is only executed if the summed columns exists in both df's it will append _sum
-adds the summed task hours from the sum_task_hours into the dfStory.
-"""
-dfStory = pd.merge(dfStory, sum_task_hours, how='left', left_on='StoryID', right_on='TaskParent', suffixes=('', '_sum'))
-
 dfEpic = createDF('AzureEpic.csv', 'dfEpic')
 dfEpic = df_parse_data(dfEpic)
 df_col_names = dfEpic.columns
 rename_columns = df_rename_columns(df_col_names, 'Epic')
 dfEpic = dfEpic.rename(columns= rename_columns)
 
+dfStory = createDF('AzureStory.csv', 'dfStory')
+dfStory['PID'] = dfStory.index
+
 dfInc = createDF('AzureIncident.csv', 'dfInc')
-# Add the id of the incident as a persisted field
 dfInc['PID'] = dfInc.index
-dfInc = df_parse_data(dfInc)
-df_col_names = dfInc.columns
-rename_columns = df_rename_columns(df_col_names, 'Inc')
-dfInc = dfInc.rename(columns= rename_columns)
-"""The suffixes command on the merge is only executed if the summed columns exists in both df's it will append _sum
-adds the summed task hours from the sum_task_hours into the dfInc.
-"""
-dfInc = pd.merge(dfInc, sum_task_hours, how='left', left_on='IncPID', right_on='TaskParent', suffixes=('', '_sum'))
+
+dfBug = createDF('AzureBug.csv', 'dfBug')
+dfBug['PID'] = dfBug.index
+
+dfCore = pd.concat([dfStory, dfInc, dfBug], axis=0)
+dfCore = df_parse_data(dfCore)
+df_col_names = dfCore.columns
+rename_columns = df_rename_columns(df_col_names, '')
+dfCore = dfCore.rename(columns= rename_columns)
+dfCore = pd.merge(dfCore, sum_task_hours, how='left', left_on='PID', right_on='TaskParent', suffixes=('', '_sum'))
 
 # Join story and Features df together
-df = pd.merge(dfStory, dfFeature, how='left', left_on='StoryParent', right_on='ID')
+df = pd.merge(dfCore, dfFeature, how='left', left_on='Parent', right_on='ID')
 df = pd.merge(df, dfEpic, how='left', left_on='FeatureParent', right_on='ID')
 df = pd.merge(df, dfProj, how='left', left_on='EpicParent', right_on='ID')
 
 # Perform aggregation on the data
 df['StoryCompletedPoints'] = \
-    df.apply(lambda row: row['StoryStoryPoints'] if row['StoryState'] == 'Closed' else None, axis=1)
+    df.apply(lambda row: row['StoryPoints'] if row['State'] == 'Closed' else None, axis=1)
 
 # df.drop('CompletedPoints', axis=1, inplace=True)
 # dfTask['TaskActivity'].unique() gives a distinct of all values in the column
 
+# result = df[(df['Parent'].notnull()) & (df['FeatureWorkItemType'].isnull())]
+
 df_csv_out(df, output_data_path, 'AzureOutput')
+df_csv_out(dfCore, output_data_path, 'Core')
+df_csv_out(dfBug, output_data_path, 'Bug')
 df_csv_out(dfStory, output_data_path, 'StoryOutput')
 df_csv_out(dfFeature, output_data_path, 'FeatureOutput')
 df_csv_out(dfEpic, output_data_path, 'EpicOutput')
